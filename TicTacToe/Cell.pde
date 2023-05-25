@@ -13,9 +13,16 @@ class Cell {
     this.h = h;
   }
   
-  // getting methods
+  // getter methods
   int getState() {
     return state;
+  }
+  
+  boolean isEmpty(){
+    if(state ==0){
+      return true;
+    }
+    return false;
   }
 
   int getX() {
