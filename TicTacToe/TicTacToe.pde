@@ -35,6 +35,7 @@ void draw() {
 
   //game start!
   if (game == 2) {
+    text(cellsLeft, width/2 - width/4, 2* (height/3));
     checkGame();  // check if  player win
     for (int i = 0; i<cols; i++) {
       for (int j = 0; j<rows; j++) {
@@ -72,6 +73,26 @@ void keyPressed() {
   }
 }
 
+void playMove(){
+  boolean moveMade = false;
+  while(!moveMade){
+    int x = (int) random(0,cols);
+    int y = (int) random(0,rows);
+    if(board[x][y].isEmpty()){
+      moveMade = true;
+      if(player == 0){
+        board[x][y].setState(1);
+        player = 1;
+        cellsLeft -= 1;
+      }
+      else if (player == 1){
+        board[x][y].setState(2);
+        player = 0;
+        cellsLeft -= 1;
+      }
+    }
+  }
+}
 
 
 void checkGame() {

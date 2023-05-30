@@ -13,6 +13,10 @@ class Cell {
     this.h = h;
   }
   
+  void setState(int x){
+    state = x;
+  }
+  
   // getter methods
   int getState() {
     return state;
@@ -69,7 +73,13 @@ class Cell {
         state = 2;
         cellsLeft -= 1;
         player = 0;
+        
       }
+      // if one player mode, make a move
+      if(mode == 1 && cellsLeft >0){
+          //delay(200);
+          playMove();
+       }
     }
   }
 
