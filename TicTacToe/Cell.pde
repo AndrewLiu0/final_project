@@ -6,43 +6,40 @@ class Cell {
   private int state= 0; // 0 is empty, 1 is circle, 2 is X
   
   // constructor 
-  Cell (int x, int y, int w, int h) {
+   Cell (int x, int y, int w, int h) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
   }
   
-  void setState(int x){
+  public void setState(int x){
     state = x;
   }
   
   // getter methods
-  int getState() {
+  public int getState() {
     return state;
   }
   
-  boolean isEmpty(){
-    if(state ==0){
-      return true;
-    }
-    return false;
+  public boolean isEmpty(){
+    return state == 0;
   }
 
-  int getX() {
+  public int getX() {
     return x;
   }
 
-  int getY() {
+  public int getY() {
     return y;
   }
 
-  void clear() {
+  public void clear() {
     state = 0;
     cellsLeft -= 1;
   }
   
-  void display() {
+  private void display() {
     // drawing out the cell
     noFill();
     stroke(255);
@@ -63,7 +60,7 @@ class Cell {
     }
   }
 
-  void click(int px, int py) {
+  private void click(int px, int py) {
     // if mouseClick is on the cell and the cell is empty
     if (px > x && px < x+w && py > y && py < y+h && state == 0) {
       if (player == 0) {
