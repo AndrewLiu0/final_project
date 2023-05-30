@@ -39,6 +39,7 @@ class Cell {
 
   void clear() {
     state = 0;
+    cellsLeft -= 1;
   }
   
   void display() {
@@ -78,7 +79,7 @@ class Cell {
       // if one player mode, make a move
       if(mode == 1 && cellsLeft >0){
           //delay(200);
-          playMove();
+          randomPlayMove();
        }
     }
   }
