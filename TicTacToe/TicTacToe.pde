@@ -136,8 +136,8 @@ private void checkGame() {
     }
   }
 
-  if ( win == 0 && cellsLeft == 0) {  // no win ;(
-    fill(0, 0, 0);
+  if ( win == 0 && cellsLeft == 0) {  
+    fill(0, 255, 0);
     textSize(35);
     text("TIE! ENTER to Start Again", width/2-width/3, height/2-height/6 - 10);
   }
