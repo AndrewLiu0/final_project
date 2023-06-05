@@ -38,6 +38,8 @@ public void setup() {
   surface.setResizable(true);
   size(500, 500);
   TicTacToeSetup();
+  snakeSetup();
+  windowResize(500, 500);
 }
 
 public void draw() {
@@ -45,8 +47,13 @@ public void draw() {
     mainMenuDraw();
   }
   else if (selection == 1){
+    windowResize(500, 500);
+    TicTacToeDraw();
   }
-  TicTacToeDraw();
+  else if (selection == 2){
+    windowResize(1080, 720);
+    snakeDraw();
+  }
 }
 
 public void mousePressed() {
@@ -54,14 +61,26 @@ public void mousePressed() {
 }
 
 public void keyPressed() {
-  if(selection == 0 && key == ENTER){
-    selection = 1;
+  if(selection == 0 && keyCode == 84){
+    selection = 1;   
+    cellsLeft = 9;
+    game = 1;
   }
-  TicTacToeKeyPressed();
+  else if (selection == 0 && keyCode == 83){
+    selection = 2;
+  }
+  else if (selection == 1){
+    TicTacToeKeyPressed();
+  }
+  else if (selection == 2){
+    SnakeKeyPressed();
+  }
 }
 
 public void mainMenuDraw(){
-    text("Press ENTER for TicTacToe", width/2 - width/5, height/2);
+    textSize(20);
+    fill(255);
+    text("Press T` for TicTacToe", width/2 - width/5, height/2);
     text("Press S for Snake Game" , width/2 - width/5, height/2 + height/6);
   
 }
@@ -78,10 +97,10 @@ public void TicTacToeSetup(){
 
 public void TicTacToeDraw(){
   background(0);
+  fill(155);
+  
   if (game == 0) {
-    fill(255);
-    textSize(20);
-    text("Press ENTER to Start", width/2 - width/5, height/2);
+    text("Press T for TicTacToe", width/2 - width/5, height/2);
     text("Press S for Snake Game" , width/2 - width/5, height/2 + height/6);
   }
 
@@ -114,15 +133,8 @@ public void TicTacToeMousePressed(){
 }
 
 public void TicTacToeKeyPressed(){
-  if (game == 0 && key == ENTER) {
-    cellsLeft = 9;
-    game = 1;
-  }
-  else if (game == 0 && keyCode == 115){
-    
-  }
   // 1 is pressed
-  else if (game == 1 && keyCode == 49) {
+  if (game == 1 && keyCode == 49) {
     game = 2;
     mode = 1;
   }
@@ -131,8 +143,9 @@ public void TicTacToeKeyPressed(){
     game = 2;
     mode = 2;
   } else if (game == 2 && win == 1 || win == 2 || cellsLeft ==0 && keyCode == ENTER) {
+    selection = 0;
     clearBoard();
-    game = 0;
+    game = 1;
   }
 }
 
@@ -216,18 +229,113 @@ void clearBoard() {
 
 // SNAKE GAME
 
-//public void snakeSetup(){
-//  windowResize(1080, 720);
-//  w = width/size;
-//  h = height/size;
+public void snakeSetup(){
+  windowResize(1080, 720);
+  w = width/size;
+  h = height/size;
   
-//  pos = new PVector(w/2, h/2); // Initial snake position
-//  newFood(); // create 2D vector
+  pos = new PVector(w/2, h/2); // Initial snake position
+  newFood(); // create 2D vector
   
-//  noStroke();
-//  fill(0);
-//}
+  noStroke();
+  fill(0);
+}
 
 public void snakeDraw(){
+  background(200);
+  drawSnake();
+  drawFood();
+  
+  // update snake if frameCount is a multiple of spd which is 20 at the begining
+  if(frameCount % spd == 0) {
+    updateSnake();   
+  }
+}
+public void drawFood() {
+  fill(255, 0, 0); 
+  rect(food.x * size, food.y * size, size, size); 
+}
+
+void drawSnake() {
+  fill(0); // set the snake color
+  rect(pos.x * size, pos.y * size, size, size); // draw the snake head square at the current position
+  
+  for(PVector bodyPart : snake) { // iterate over the snake body parts
+    rect(bodyPart.x * size, bodyPart.y * size, size, size); // draw each body part square at its position
+  }
+}
+
+void updateSnake() {
+  // Add current position(head) to snake ArrayList
+  snake.add(new PVector(pos.x,pos.y));
+  
+  // Check the size of snake. Remove some items from snake ArrayList if needed
+  while(snake.size()> len){
+    snake.remove(0);
+  }
+  
+  // Calculate new position of snake (head). You must use the direction vector for this calculation
+  pos.add(dir);
+  // If snake (head) hits food, add +1 to the snake size and create a new food
+  if(pos.x == food.x && pos.y == food.y){
+    len += 1;
+    newFood();
+    if(spd!=1){
+      spd -= 1;
+    }
+    
+  }
+  // If snake (head) eat itself, gameover, reset()
+  for(PVector bodyPart: snake){
+    if (bodyPart.x == pos.x && bodyPart.y == pos.y && len > 3){
+      
+      reset();
+      //selection = 0;
+    }
+  }
+  
+  for(PVector bodyPart: snake){
+    if (bodyPart.x <= 0 || bodyPart.x * (size + 1) >= width || bodyPart.y * (size + 1) >= height || bodyPart.y <= 0 ){
+      reset();
+      selection = 0;
+    }
+  }
+  
+}
+
+void reset() {
+  spd = 20;
+  len = 5;
+  pos = new PVector(w/2, h/2);
+  dir = new PVector(0, 0);
+  newFood();
+  snake = new ArrayList<PVector>();
+}
+
+void newFood() {
+  food = new PVector(int(random(w)), int(random(h)));
+}
+
+void SnakeKeyPressed() {
+  if(key == CODED){
+    if(keyCode == UP){
+      dir = new PVector(0,-1);
+    }
+    else if (keyCode == DOWN){
+      dir = new PVector(0,1);
+    }
+    else if (keyCode == LEFT){
+      dir = new PVector (-1 ,0);
+    }
+    else if (keyCode == RIGHT){
+      dir = new PVector(1,0);
+    }
+  }
+  // if UP is pressed => dir = new PVector(...)
+  // same thing for DOWN, LEFT, RIGHT
+  // UP (0, -1)
+  // DOWN(0, 1)
+  // LEFT(-1,0)
+  // RIGHT(1,0)
   
 }
