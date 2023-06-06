@@ -1,37 +1,6 @@
 private int selection  = 0; 
 // 0 is main menu, 1 is tictactoe, 2 is snake game
 
-// for TicTacToe Game
-
-private Cell[][] board;
-
-private int cols = 3;
-private int rows = 3;
-
-private int cellsLeft = 9; // number of remaining empty cells
-private int player = 0; //0 = player1, 1 = player2
-private int win = 0;  // 1 = player1 X   2 = player2 0
-private int game = 0;  // 1 = selection mode, 2 = game started
-private int mode =0; // 1 is one player and 2 is two player
-
-// for Snake game
-
-private ArrayList<PVector> snake = new ArrayList<PVector>(); // snake body (not included the head)
-private PVector pos; // snake position (position of the head)
-
-private StringList mode_list = new StringList(new String[] {"border", "no_border"}); // if you implement both functionalities
-private int mode_pos = 1; // mode 1 by default - if hits wall wraps around
-private String actual_mode = mode_list.get(mode_pos); // current mode name
-
-private PVector food; // food position
-
-private PVector dir = new PVector(0, 0); // snake direction (up, down, left right)
-
-private int size = 40; // snake and food square size
-private int w, h; // how many snakes can be allocated
-
-private int spd = 10; // reverse speed (smaller spd will make the snake move faster)
-private int len = 4; // snake body
 
 
 public void setup() {
@@ -80,7 +49,7 @@ public void keyPressed() {
 public void mainMenuDraw(){
     textSize(20);
     fill(255);
-    text("Press T` for TicTacToe", width/2 - width/5, height/2);
+    text("Press T for TicTacToe", width/2 - width/5, height/2);
     text("Press S for Snake Game" , width/2 - width/5, height/2 + height/6);
   
 }
@@ -290,7 +259,6 @@ void updateSnake() {
     if (bodyPart.x == pos.x && bodyPart.y == pos.y && len > 3){
       
       reset();
-      //selection = 0;
     }
   }
   
