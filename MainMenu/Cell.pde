@@ -5,6 +5,9 @@ class Cell {
   private int h; // height of cell
   private int state= 0; // 0 is empty, 1 is circle, 2 is X
   
+  private PImage green;
+  private PImage red;
+  
   // constructor 
    Cell (int x, int y, int w, int h) {
     this.x = x;

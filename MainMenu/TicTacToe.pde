@@ -79,10 +79,12 @@ public void TKeyPressed(){
   else if (game == 1 && keyCode == 50) {
     game = 2;
     mode = 2;
-  } else if (game == 2 && win == 1 || win == 2 || cellsLeft ==0 && keyCode == ENTER) {
+  } 
+  else if (game == 2 && win == 1 || win == 2 || cellsLeft ==0 && keyCode == ENTER) {
     selection = 0;
     clearBoard();
     game = 1;
+    TSetup();
   }
 }
 

@@ -20,6 +20,7 @@ public void setup() {
 
 public void draw() {
   if(selection == 0){
+    windowResize(500,500);
     mainMenuDraw();
   }
   else if (selection == 1){
@@ -27,6 +28,7 @@ public void draw() {
     TDraw();
   }
   else if (selection == 2){
+    
     windowResize(1080, 720);
     SDraw();
   }
