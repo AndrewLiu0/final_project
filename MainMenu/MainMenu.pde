@@ -43,9 +43,11 @@ public void keyPressed() {
     selection = 1;   
     cellsLeft = 9;
     game = 1;
+    TSetup();
   }
   else if (selection == 0 && keyCode == 83){
     selection = 2;
+    SSetup();
   }
   else if (selection == 1){
     TKeyPressed();

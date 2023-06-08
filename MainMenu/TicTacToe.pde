@@ -15,6 +15,7 @@ public void TSetup(){
   TBackground = loadImage("TicTacToeBackground.png");
   windowResize(500,500);
   board = new Cell[cols][rows];
+  player = 0;
   for (int i = 0; i< cols; i++) {
     for ( int j = 0; j < rows; j++) {
       board[i][j] = new Cell(width/3*i, height/3*j, width/3, height/3);
@@ -138,14 +139,19 @@ private void checkGame() {
   }
 
   if (win == 1 || win == 2) {
-    textSize(30);
+    textSize(20);
     if (win == 1) {
+      
       fill(0, 0, 225);
-      text("O WINS! ENTER to Start Again", width/2-width/2+23, height/2-height/6-20);
+      text("O WINS!", width/2 - width/6 + 15, height/2-height/5- 10);
+      
     } else if (win == 2) {
       fill(255, 0, 0);
-      text("X WINS! ENTER to Start Again", width/2-width/2+23, height/2-height/6-20);
+      text("X WINS!", width/2 - width/6 + 15, height/2-height/5- 10);
     }
+    fill (255,255,255);
+    text("PLAY AGAIN[ENTER] ", width/2-width/3, height/2-height/6-5);
+    
   }
 
   if ( win == 0 && cellsLeft == 0) {

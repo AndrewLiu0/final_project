@@ -56,7 +56,6 @@ public void SDraw(){
 
 public void drawEndScreen(){ 
   text("GAME OVER!" , width/2 - width/6, height/2 - height/4);
-  
 }
 
 public void drawFood() {
@@ -101,16 +100,16 @@ void updateSnake() {
   for(PVector bodyPart: snake){
     if (bodyPart.x == pos.x && bodyPart.y == pos.y && len > 3 && (dir.x !=0 || dir.y !=0)){
       reset();
-      selection = 0;
-      endState = 1;
+      //selection = 0;
+      //endState = 1;
     }
   }
   
   for(PVector bodyPart: snake){
     if (bodyPart.x <= 0 || bodyPart.x * (size + 1) >= width || bodyPart.y * (size + 1) >= height || bodyPart.y <= 0 ){
       reset();
-      selection = 0;
-      endState = 1;
+      //selection = 0;
+      //endState = 1;
     }
   }
   
