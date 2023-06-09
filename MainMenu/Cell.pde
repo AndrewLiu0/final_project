@@ -1,9 +1,14 @@
 class Cell {
+  
+  
   private int x; // x coord of top left
   private int y; // y coord of top left
   private int w; // width of cell
   private int h; // height of cell
   private int state= 0; // 0 is empty, 1 is circle, 2 is X
+  
+  private PImage green;
+  private PImage red;
   
   // constructor 
    Cell (int x, int y, int w, int h) {
@@ -44,7 +49,11 @@ class Cell {
     noFill();
     stroke(255);
     strokeWeight(3);
-    rect(x, y, w, h);
+    if( win == 0 && cellsLeft == 0 || win !=0){      
+    }
+    else{
+      rect(x, y, w, h);
+    }
     
     // draw out the circle
     if (state == 1) {

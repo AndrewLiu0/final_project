@@ -9,9 +9,13 @@ private int win = 0;  // 1 = player1 X   2 = player2 0
 private int game = 0;  // 1 = selection mode, 2 = game started
 private int mode =0; // 1 is one player and 2 is two player
 
-public void setup() {
-  size(500, 500);
+private PImage TBackground;
+
+public void TSetup(){
+  TBackground = loadImage("TicTacToeBackground.png");
+  windowResize(500,500);
   board = new Cell[cols][rows];
+  player = 0;
   for (int i = 0; i< cols; i++) {
     for ( int j = 0; j < rows; j++) {
       board[i][j] = new Cell(width/3*i, height/3*j, width/3, height/3);
@@ -19,22 +23,33 @@ public void setup() {
   }
 }
 
-public void draw() {
+public void TDraw(){
   background(0);
+  fill(155);
+  
+  
   if (game == 0) {
-    fill(255);
-    textSize(20);
-    text("Press ENTER to Start", width/2 - width/6, height/2);
+    text("Press T for TicTacToe", width/2 - width/5, height/2);
+    text("Press S for Snake Game" , width/2 - width/5, height/2 + height/6);
   }
 
   // choose mode
   if (game == 1) {
-    text("Press 1 for one player mode", width/2 - width/4, height /3);
-    text("Press 2 for two player mode", width/2 - width/4, 2* (height/3));
+    
+    fill(255);
+    image(MainMenuImage, 0 , 0, width, height);
+    textSize(25);
+    textFont(ArcadeSolidFont);
+    text("SELECTION" , width/2 - width/5, height/3.3);
+    textFont(ArcadeFont);
+    
+    text("ONE PLAYER[1]", width/2 - width/4.4, height /2.4);
+    text("TWO PLAYER[2]", width/2 - width/4.4, (height/2));
   }
 
   //game start!
   if (game == 2) {
+    image(TBackground, 0 , 0, width, height);
     checkGame();  // check if  player win
     for (int i = 0; i<cols; i++) {
       for (int j = 0; j<rows; j++) {
@@ -44,7 +59,7 @@ public void draw() {
   }
 }
 
-public void mousePressed() {
+public void TMousePressed(){
   // if the game started and no one has won
   if (game == 2 && win == 0) {
     for (int i = 0; i < cols; i ++) {
@@ -55,13 +70,9 @@ public void mousePressed() {
   }
 }
 
-public void keyPressed() {
-  if (game == 0 && key == ENTER) {
-    cellsLeft = 9;
-    game = 1;
-  }
+public void TKeyPressed(){
   // 1 is pressed
-  else if (game == 1 && keyCode == 49) {
+  if (game == 1 && keyCode == 49) {
     game = 2;
     mode = 1;
   }
@@ -69,10 +80,16 @@ public void keyPressed() {
   else if (game == 1 && keyCode == 50) {
     game = 2;
     mode = 2;
-  } else if (game == 2 && win == 1 || win == 2 || cellsLeft ==0 && keyCode == ENTER) {
+  } 
+  else if (keyCode == 77 && game == 2 && win == 1 || win == 2 || cellsLeft ==0 ) {
+    selection = 0;
     clearBoard();
-    game = 0;
+    game = 1;
+    TSetup();
   }
+  
+  
+  
 }
 
 private void randomPlayMove() {
@@ -94,7 +111,6 @@ private void randomPlayMove() {
     }
   }
 }
-
 
 private void checkGame() {
   int row = 0;
@@ -126,20 +142,32 @@ private void checkGame() {
   }
 
   if (win == 1 || win == 2) {
-    textSize(30);
+    textAlign(CENTER);
+    textSize(22);
     if (win == 1) {
-      fill(0, 0, 225);
-      text("O WINS! ENTER to Start Again", width/2-width/2+23, height/2-height/6-20);
+      
+      fill(126, 174, 246);
+      text("O WINS!", width/2, height/2-height/5);
+      
     } else if (win == 2) {
-      fill(255, 0, 0);
-      text("X WINS! ENTER to Start Again", width/2-width/2+23, height/2-height/6-20);
+      fill(246, 118, 138);
+      text("X WINS!", width/2, height/2-height/5);
     }
+    fill (255,255,255);
+    
+    text("MAIN MENU [M] ", width/2, height/2-height/6 + 20);
+    //text("RESTART [ENTER]", width/2, height/2 - height/6 + 30);
+    
   }
 
-  if ( win == 0 && cellsLeft == 0) {  
+  if ( win == 0 && cellsLeft == 0) {
+    textAlign(CENTER);
     fill(0, 255, 0);
-    textSize(35);
-    text("TIE! ENTER to Start Again", width/2-width/3, height/2-height/6 - 10);
+    textSize(22);
+    text("TIE!", width/2, height/2-height/5);
+    text("MAIN MENU [M] ", width/2, height/2-height/6 + 20);
+
+    
   }
 }
 
