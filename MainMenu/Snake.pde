@@ -61,7 +61,7 @@ public void SDraw(){
   }
 }
 
-public void drawEndScreen(){ 
+private void drawEndScreen(){ 
   fill(175,82,172);
   textSize(40);
   textAlign(CENTER);
@@ -73,12 +73,12 @@ public void drawEndScreen(){
   text("Main Menu [M]", width/2 , height /1.5);
 }
 
-public void drawFood() {
+private void drawFood() {
   fill(189  , 128, 167); 
   rect(food.x * size, food.y * size, size, size); 
 }
 
-void drawSnake() {
+private void drawSnake() {
     fill(115,10,112); // set the snake color
     noStroke();
     rect(pos.x * size, pos.y * size, size, size); // draw the snake head square at the current position
@@ -91,7 +91,7 @@ void drawSnake() {
     }
 }
 
-void updateSnake() {
+private void updateSnake() {
   // Add current position(head) to snake ArrayList
   snake.add(new PVector(pos.x,pos.y));
   
@@ -127,7 +127,7 @@ void updateSnake() {
   
 }
 
-void reset() {
+private void reset() {
   spd = 7;
   len = 4;
   pos = new PVector(w/2, h/2);
@@ -136,11 +136,11 @@ void reset() {
   snake = new ArrayList<PVector>();
 }
 
-void newFood() {
+private void newFood() {
   food = new PVector(int(random(w)), int(random(h)));
 }
 
-void SnakeKeyPressed() {
+private void SnakeKeyPressed() {
     
     if(keyCode == UP){
       dir = new PVector(0,-1);

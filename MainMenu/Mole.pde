@@ -1,30 +1,39 @@
-int score;
-int timeLeft;
-int moleX;
-int moleY;
-int moleSize;
-boolean moleVisible;
-int highScore;
-String highScoreFilePath = "highscore.txt"; 
-boolean MGameStarted;
-boolean gameEnded;
+private int moleScore;
+private int timeLeft;
+private int moleX;
+private int moleY;
+private int moleSize;
+
+
+private boolean moleVisible;
+private int highmoleScore;
+private String highmoleScoreFilePath = "highmoleScore.txt"; 
+private boolean MGameStarted;
+private boolean gameEnded;
+
+private PImage wackBackground;
+private PImage mole;
 
 final int gameDuration = 10;
 
 
-void MSetup(){
+private void MSetup(){
+  wackBackground = loadImage("WackBackground.png");
+  mole = loadImage("mole.png");
+  
   windowResize(400, 400);
-  score = 0;
-  timeLeft = gameDuration;  // Game duration in seconds
+  moleScore = 0;
+  timeLeft = gameDuration;
   moleSize = 50;
+  
   moleVisible = false;
   gameStarted = false;
   gameEnded = false;
-  loadHighScore();
+  loadHighmoleScore();
 }
 
-void MDraw() {
-  background(220);
+private void MDraw() {
+  image(wackBackground, 0 , 0, width, height);
   
   if (MGameStarted) {
     if (!gameEnded) {
@@ -39,102 +48,137 @@ void MDraw() {
   }
 }
 
-void MKeyPressed() {
+private void MKeyPressed() {
     if (key == ENTER ) {
       MResetGame();
       MGameStarted = true;
     }
+    else if (key == 'm'){
+      MResetGame();
+      MGameStarted = false;
+      selection = 0;
+      MSetup();
+      
+    }
 }
 
-void MMousePressed() {
-  // Check if mole was hit
+private void MMousePressed() {
+  // formula to check if mole was hit
   if (gameStarted && !gameEnded && moleVisible && dist(mouseX, mouseY, moleX, moleY) < moleSize/2) {
-    score++;
+    moleScore++;
     moleVisible = false;
   }
 }
 
-void startScreen() {
-  fill(0);
+private void startScreen() {
+  
+  
+  fill(255);
   textAlign(CENTER, CENTER);
-  textSize(20);
-  text("Welcome to Whack-a-Mole!", width/2, height/2 - 20);
+  textSize(25);
+  text("Whack-a-Mole!", width/2, height/2 - 50);
+  
+  
   textSize(16);
   text("Press Enter to Start", width/2, height/2 + 20);
   text("How to Play:", width/2, height/2 + 60);
+  
+  
   textSize(14);
-  text("Click on the mole when it appears to whack it.", width/2, height/2 + 90);
-  text("Try to whack as many moles as you can within the time limit.", width/2, height/2 + 110);
+  text("You have 10 seconds to whack ", width/2, height/2 + 90);
+  text("as many moles as you can", width/2, height/2 + 110);
+  
+  
 }
 
 
-void playGame() {
-  // Display score and time left
+private void playGame() {
   textSize(20);
   textAlign(LEFT);
-  text("Score: " + score, 10, 30);
+  
+  fill(255);
+  text("Score: " + moleScore, 10, 30);
+  text("High Score: " + highmoleScore, 10, 90);
+  
+  fill(255,0,0);
   text("Time: " + timeLeft, 10, 60);
-  text("High Score: " + highScore, 10, 90);
   
   if (timeLeft > 0) {
-    // Update time left
     if (frameCount % 60 == 0) {
       timeLeft--;
     }
     
-    // Display mole
     if (moleVisible) {
+      
+      imageMode(CORNER);
       fill(255, 0, 0);
       ellipse(moleX, moleY, moleSize, moleSize);
-    } else {
+      imageMode(CENTER);
+      image(mole, moleX,moleY, width/6, width/6);
+      imageMode(CORNER);
+      
+      
+    } 
+    else {
       newMole();
     }
-  } else {
+  } 
+  else {
     gameEnded = true;
   }
 }
 
-void endScreen() {
+private void endScreen() {
   textAlign(CENTER, CENTER);
-  textSize(20);
+  textSize(30);
+  fill(255,0,0);
   text("Game Over!", width/2, height/2 - 20);
-  text("Final Score: " + score, width/2, height/2 + 20);
-  textSize(16);
-  text("Press Enter to Restart", width/2, height/2 + 60);
+  textSize(20);
+  fill(255);
   
-  // Check if the current score is higher than the stored high score
-  if (score > highScore) {
-    highScore = score;
-    saveHighScore();
+  
+  text("Final Score: " + moleScore, width/2, height/2 + 20);
+  text("High Score: " + highmoleScore, width/2, height/2 + 45);
+  textSize(16);
+  text("Restart [ENTER]", width/2, height/2 + 90);
+  text ("Main Menu [M]", width/2, height/2 + 110);
+  
+  
+  
+  if (moleScore > highmoleScore) {
+    highmoleScore = moleScore;
+    saveHighmoleScore();
   }
 }
 
-void newMole() {
-  // Generate new mole position
+private void newMole() {
   moleX = int(random(moleSize, width - moleSize));
   moleY = int(random(moleSize, height - moleSize));
   moleVisible = true;
 }
 
-void MResetGame() {
-  score = 0;
+private void MResetGame() {
+  moleScore = 0;
   timeLeft = gameDuration;
   gameStarted = true;
   gameEnded = false;
   newMole();
 }
 
-void loadHighScore() {
-  String[] lines = loadStrings(highScoreFilePath);
+private void loadHighmoleScore() {
+  String[] lines = loadStrings(highmoleScoreFilePath);
+  
+  
   if (lines != null && lines.length > 0) {
-    highScore = Integer.parseInt(lines[0]);
-  } else {
-    highScore = 0;
+    highmoleScore = Integer.parseInt(lines[0]);
+  } 
+  else {
+    highmoleScore = 0;
   }
 }
 
-void saveHighScore() {
+private void saveHighmoleScore() {
   String[] lines = new String[1];
-  lines[0] = String.valueOf(highScore);
-  saveStrings(highScoreFilePath, lines);
+  lines[0] = String.valueOf(highmoleScore);
+  saveStrings(highmoleScoreFilePath, lines);
 }

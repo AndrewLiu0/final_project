@@ -18,7 +18,7 @@ private boolean gameOver = false;
 
 private PImage PBackground;
 
-public void PSetup(){
+private void PSetup(){
   windowResize(800, 400);
   
   PBackground = loadImage("PongBackground.png");
@@ -34,7 +34,7 @@ public void PSetup(){
 }
 
 
-public void PDraw(){
+private void PDraw(){
   image(PBackground, 0 , 0, width, height);
 
   if (gameStarted) {
@@ -52,7 +52,7 @@ public void PDraw(){
 }
 
 
-public void PKeyPressed(){
+private void PKeyPressed(){
   if (!gameStarted || gameOver) {
     if (keyCode == ENTER) {
       resetGame();
@@ -69,7 +69,7 @@ public void PKeyPressed(){
 
 
 
-void displayGameOver() {
+private void displayGameOver() {
   textAlign(CENTER);
   textSize(30);
   fill(255);
@@ -93,7 +93,7 @@ void displayGameOver() {
 
 }
 
-void displayStartScreen() {
+private void displayStartScreen() {
   textAlign(CENTER);
   textSize(30);
   fill(255);
@@ -107,19 +107,19 @@ void displayStartScreen() {
   text("Player 2: use UP and DOWN key", width / 2, height / 2 + 120);
 }
 
-void drawPaddles() {
+private void drawPaddles() {
   fill(255, 0, 0);
   rect(paddle1X, paddle1Y, paddleWidth, paddleHeight);
   fill(0, 0, 255);
   rect(paddle2X, paddle2Y, paddleWidth, paddleHeight);
 }
 
-void drawBall() {
+private void drawBall() {
   fill(255);
   ellipse(ballX, ballY, ballSize, ballSize);
 }
 
-void updatePaddles() {
+private void updatePaddles() {
   // Move paddle 1
   if (keyPressed && key == 'w') {
     paddle1Direction = -1;
@@ -159,7 +159,7 @@ void updatePaddles() {
   }
 }
 
-void updateBall() {
+private void updateBall() {
   // Move the ball
   ballX += ballSpeedX;
   ballY += ballSpeedY;
@@ -194,14 +194,14 @@ void updateBall() {
   }
 }
 
-void resetBall() {
+private void resetBall() {
   ballX = width / 2;
   ballY = height / 2;
   ballSpeedX = 5;
   ballSpeedY = random(-5, 5);
 }
 
-void resetGame() {
+private void resetGame() {
   player1Score = 0;
   player2Score = 0;
   gameOver = false;
@@ -209,14 +209,14 @@ void resetGame() {
   resetBall();
 }
 
-void checkGameOver() {
+private void checkGameOver() {
   if (player1Score >= 3 || player2Score >= 3) {
     gameStarted = false;
     gameOver = true;
   }
 }
 
-void displayScores() {
+private void displayScores() {
   textAlign(CENTER);
   textSize(30);
   
