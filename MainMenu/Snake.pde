@@ -1,9 +1,6 @@
 private ArrayList<PVector> snake = new ArrayList<PVector>(); // snake body (not included the head)
 private PVector pos; // snake position (position of the head)
 
-private StringList mode_list = new StringList(new String[] {"border", "no_border"}); // if you implement both functionalities
-private int mode_pos = 1; // mode 1 by default - if hits wall wraps around
-private String actual_mode = mode_list.get(mode_pos); // current mode name
 
 private PVector food; // food position
 
@@ -20,10 +17,13 @@ private PImage SBackground;
 private int endState; // 0 is not ended, 1 is ended 
 
 
+
 public void SSetup(){
   windowResize(1080, 720);
   w = width/size;
   h = height/size;
+  
+  rectMode(CORNER);
   
   endState = 0;
   
@@ -32,6 +32,10 @@ public void SSetup(){
   pos = new PVector(w/2, h/2); // Initial snake position
   newFood(); // create 2D vector
   
+ 
+  
+  
+  
   noStroke();
   fill(0);
 }
@@ -39,13 +43,16 @@ public void SSetup(){
 public void SDraw(){
   image(SBackground, 0 , 0, width, height);
   if(endState == 0){
+    fill(247,177,245);
+    textAlign(CENTER);
+    text("Score: " + (len - 4), width/2 , height/2 -19);
     drawSnake();
     drawFood();
   }
   else if (endState == 1){
     drawEndScreen();
+    
   }
-  
   
   
   // update snake if frameCount is a multiple of spd which is 20 at the begining
@@ -55,21 +62,29 @@ public void SDraw(){
 }
 
 public void drawEndScreen(){ 
-  text("GAME OVER!" , width/2 - width/6, height/2 - height/4);
+  fill(175,82,172);
+  textSize(40);
+  textAlign(CENTER);
+  text("GAME OVER!" , width/2, height/2 - height/4);
+  textSize(30);
+  text("Your Score: " + (len - 4), width/2 , height/4 + height/6);
+  fill(255);
+  text("Restart [ENTER]", width/2, height/1.75);
+  text("Main Menu [M]", width/2 , height /1.5);
 }
 
 public void drawFood() {
-  fill(255, 0, 0); 
+  fill(189  , 128, 167); 
   rect(food.x * size, food.y * size, size, size); 
 }
 
 void drawSnake() {
-    fill(0); // set the snake color
+    fill(115,10,112); // set the snake color
     noStroke();
     rect(pos.x * size, pos.y * size, size, size); // draw the snake head square at the current position
     
     
-    fill(0); // set the snake color
+    fill(247,177,245);; // set the snake color
     
     for(PVector bodyPart : snake) { // iterate over the snake body parts
       rect(bodyPart.x * size, bodyPart.y * size, size, size); // draw each body part square at its position
@@ -99,17 +114,14 @@ void updateSnake() {
   // If snake (head) eat itself, gameover, reset()
   for(PVector bodyPart: snake){
     if (bodyPart.x == pos.x && bodyPart.y == pos.y && len > 3 && (dir.x !=0 || dir.y !=0)){
-      reset();
-      //selection = 0;
-      //endState = 1;
+      endState = 1;
     }
   }
   
   for(PVector bodyPart: snake){
     if (bodyPart.x <= 0 || bodyPart.x * (size + 1) >= width || bodyPart.y * (size + 1) >= height || bodyPart.y <= 0 ){
-      reset();
-      //selection = 0;
-      //endState = 1;
+      
+      endState = 1;
     }
   }
   
@@ -117,7 +129,7 @@ void updateSnake() {
 
 void reset() {
   spd = 7;
-  len = 5;
+  len = 4;
   pos = new PVector(w/2, h/2);
   dir = new PVector(0, 0);
   newFood();
@@ -129,7 +141,6 @@ void newFood() {
 }
 
 void SnakeKeyPressed() {
-  if(key == CODED){
     
     if(keyCode == UP){
       dir = new PVector(0,-1);
@@ -143,6 +154,16 @@ void SnakeKeyPressed() {
     else if (keyCode == RIGHT){
       dir = new PVector(1,0);
     }
-  }
+    
+    else if (endState  == 1 && keyCode == 77){
+      selection = 0;
+      reset();
+    }
+    else if (endState == 1 && keyCode == ENTER){
+      SSetup();
+      selection = 2;
+      reset();
+    }
+  
   
 }

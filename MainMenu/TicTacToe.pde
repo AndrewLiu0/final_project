@@ -81,12 +81,15 @@ public void TKeyPressed(){
     game = 2;
     mode = 2;
   } 
-  else if (game == 2 && win == 1 || win == 2 || cellsLeft ==0 && keyCode == ENTER) {
+  else if (keyCode == 77 && game == 2 && win == 1 || win == 2 || cellsLeft ==0 ) {
     selection = 0;
     clearBoard();
     game = 1;
     TSetup();
   }
+  
+  
+  
 }
 
 private void randomPlayMove() {
@@ -139,25 +142,32 @@ private void checkGame() {
   }
 
   if (win == 1 || win == 2) {
-    textSize(20);
+    textAlign(CENTER);
+    textSize(22);
     if (win == 1) {
       
-      fill(0, 0, 225);
-      text("O WINS!", width/2 - width/6 + 15, height/2-height/5- 10);
+      fill(126, 174, 246);
+      text("O WINS!", width/2, height/2-height/5);
       
     } else if (win == 2) {
-      fill(255, 0, 0);
-      text("X WINS!", width/2 - width/6 + 15, height/2-height/5- 10);
+      fill(246, 118, 138);
+      text("X WINS!", width/2, height/2-height/5);
     }
     fill (255,255,255);
-    text("PLAY AGAIN[ENTER] ", width/2-width/3, height/2-height/6-5);
+    
+    text("MAIN MENU [M] ", width/2, height/2-height/6 + 20);
+    //text("RESTART [ENTER]", width/2, height/2 - height/6 + 30);
     
   }
 
   if ( win == 0 && cellsLeft == 0) {
+    textAlign(CENTER);
     fill(0, 255, 0);
-    textSize(35);
-    text("TIE! ENTER to Start Again", width/2-width/3, height/2-height/6 - 10);
+    textSize(22);
+    text("TIE!", width/2, height/2-height/5);
+    text("MAIN MENU [M] ", width/2, height/2-height/6 + 20);
+
+    
   }
 }
 

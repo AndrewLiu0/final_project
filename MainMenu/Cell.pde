@@ -1,4 +1,6 @@
 class Cell {
+  
+  
   private int x; // x coord of top left
   private int y; // y coord of top left
   private int w; // width of cell
@@ -47,7 +49,11 @@ class Cell {
     noFill();
     stroke(255);
     strokeWeight(3);
-    rect(x, y, w, h);
+    if( win == 0 && cellsLeft == 0 || win !=0){      
+    }
+    else{
+      rect(x, y, w, h);
+    }
     
     // draw out the circle
     if (state == 1) {
